@@ -1,0 +1,20 @@
+# application-prod.yaml
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pigeon_db
+    username: postgres
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: none  # Ne pas mettre à jour la base de données en production
+    show-sql: false
+
+  # Disable swagger in production
+  swagger:
+    enabled: false
+
+  # Logging configuration
+  logging:
+    level:
+      root: ERROR

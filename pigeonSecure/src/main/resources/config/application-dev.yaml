@@ -1,0 +1,25 @@
+# application-dev.yaml
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pigeon_db
+    username: postgres
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  # Enable swagger in dev
+  swagger:
+    enabled: true
+
+  # Logging configuration
+  logging:
+    level:
+      root: DEBUG
+
+  # Enabledevtools
+  devtools:
+    restart:
+      enabled: true
