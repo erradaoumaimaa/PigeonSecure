@@ -3,10 +3,12 @@ import lombok.*;
 
 import lombok.Builder;
 
+import java.time.LocalDateTime;
+
 @Builder
 public record UserDTO(
         Long id,
         String username,
-        String email,
+        LocalDateTime createdAt,
         String password
 ) {}
