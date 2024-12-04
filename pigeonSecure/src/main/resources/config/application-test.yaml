@@ -1,0 +1,19 @@
+spring:
+  profiles: test
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pigeon_db
+    username: postgres
+    password: admin
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+  swagger:
+    enabled: false
+
+  logging:
+    level:
+      root: ERROR
