@@ -1,6 +1,5 @@
 package com.oumaima.pigeonSecure.dto.user;
 
-import com.oumaima.pigeonSecure.entity.enums.Role;
 
 import jakarta.validation.constraints.*;
 

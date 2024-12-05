@@ -1,11 +1,10 @@
 package com.oumaima.pigeonSecure.security;
 
 import com.oumaima.pigeonSecure.service.user.Impl.UserDetailsServiceImpl;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -14,13 +13,17 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.Collections;
+
 @Configuration
 public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
+    private final CustomAuthenticationProvider customAuthenticationProvider;
 
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, CustomAuthenticationProvider customAuthenticationProvider) {
         this.userDetailsService = userDetailsService;
+        this.customAuthenticationProvider = customAuthenticationProvider;
     }
 
     @Bean
@@ -42,29 +45,28 @@ public class SecurityConfig {
                             response.getWriter().write("Access Denied: You do not have permission to access this resource.");
                         })
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationManager(authenticationManager());
 
         return http.build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+    public AuthenticationManager authenticationManager() throws Exception {
+        return new ProviderManager(Collections.singletonList(customAuthenticationProvider));
     }
-
-
-
-
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+
     @Profile("test")
     @Bean
     public PasswordEncoder testPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
+
+
 }
