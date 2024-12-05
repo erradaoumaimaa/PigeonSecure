@@ -56,17 +56,10 @@ public class SecurityConfig {
         return new ProviderManager(Collections.singletonList(customAuthenticationProvider));
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
 
     @Profile("test")
     @Bean
     public PasswordEncoder testPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
-
-
 }
