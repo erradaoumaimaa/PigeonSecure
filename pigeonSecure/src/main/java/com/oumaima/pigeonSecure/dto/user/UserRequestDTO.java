@@ -10,7 +10,5 @@ public record UserRequestDTO(
 
         @NotBlank(message = "Password cannot be empty")
         @Size(min = 8, message = "Password must be at least 8 characters long")
-        String password,
-
-        Role role
+        String password
 ) {}

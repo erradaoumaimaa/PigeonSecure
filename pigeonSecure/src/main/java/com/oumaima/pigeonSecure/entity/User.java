@@ -29,14 +29,18 @@ public class User {
     @Column(nullable = false)
     private Role role = Role.ROLE_USER;
 
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+
     @PrePersist
     protected void onCreate() {
+        if (this.role == null) {
+            this.role = Role.ROLE_USER;
+        }
         this.createdAt = LocalDateTime.now();
     }
-
 
 
 }

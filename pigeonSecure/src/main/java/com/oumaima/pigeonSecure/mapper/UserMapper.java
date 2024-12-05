@@ -10,6 +10,8 @@ public interface UserMapper {
 
     UserResponseDTO toResponse(User user);
 
+
+    @Mapping(target = "createdAt", ignore = true)
     User toEntity(UserRequestDTO userRequestDTO);
 
     @Mapping(target = "id", ignore = true)

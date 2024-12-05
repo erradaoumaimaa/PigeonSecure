@@ -4,6 +4,7 @@ package com.oumaima.pigeonSecure.service.user.Impl;
 import com.oumaima.pigeonSecure.dto.user.UserRequestDTO;
 import com.oumaima.pigeonSecure.dto.user.UserResponseDTO;
 import com.oumaima.pigeonSecure.entity.User;
+import com.oumaima.pigeonSecure.entity.enums.Role;
 import com.oumaima.pigeonSecure.exception.user.UserAlreadyExistsException;
 import com.oumaima.pigeonSecure.exception.user.UserNotFoundException;
 import com.oumaima.pigeonSecure.mapper.UserMapper;
