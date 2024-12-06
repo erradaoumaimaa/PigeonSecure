@@ -1,6 +1,4 @@
 package com.oumaima.pigeonSecure.exception.common;
-
-git
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
