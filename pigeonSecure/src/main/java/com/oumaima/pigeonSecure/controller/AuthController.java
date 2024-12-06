@@ -1,12 +1,10 @@
 package com.oumaima.pigeonSecure.controller;
 
-import com.oumaima.pigeonSecure.dto.user.UserRequestDTO;
-import com.oumaima.pigeonSecure.dto.user.UserResponseDTO;
+import com.oumaima.pigeonSecure.dto.user.*;
 import com.oumaima.pigeonSecure.service.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
