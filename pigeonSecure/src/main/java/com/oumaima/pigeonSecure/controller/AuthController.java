@@ -1,7 +1,7 @@
 package com.oumaima.pigeonSecure.controller;
+
 import com.oumaima.pigeonSecure.dto.user.UserRequestDTO;
 import com.oumaima.pigeonSecure.dto.user.UserResponseDTO;
-import com.oumaima.pigeonSecure.mapper.UserMapper;
 import com.oumaima.pigeonSecure.service.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,19 +17,13 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final UserService userService;
-    private final UserMapper userMapper;
-
 
     @PostMapping("/register")
     public ResponseEntity<UserResponseDTO> register(@RequestBody @Valid UserRequestDTO userRequestDTO) {
-        try {
-            UserResponseDTO userResponse = userService.createUser(userRequestDTO);
-
-            return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+        UserResponseDTO userResponse = userService.createUser(userRequestDTO);
+        return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
     }
+
     @GetMapping("/login")
     public String login() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -38,7 +32,4 @@ public class AuthController {
         }
         return "User is not authenticated";
     }
-
-
-
 }

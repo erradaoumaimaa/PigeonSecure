@@ -1,4 +1,4 @@
-package com.oumaima.pigeonSecure.exception;
+package com.oumaima.pigeonSecure.exception.common;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;

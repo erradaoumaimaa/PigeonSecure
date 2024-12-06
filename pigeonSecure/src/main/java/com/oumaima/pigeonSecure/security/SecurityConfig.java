@@ -1,8 +1,10 @@
 package com.oumaima.pigeonSecure.security;
 
+import com.oumaima.pigeonSecure.exception.common.CustomAccessDeniedHandler;
+import com.oumaima.pigeonSecure.exception.common.CustomAuthenticationEntryPoint;
 import com.oumaima.pigeonSecure.service.user.impl.UserDetailsServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.*;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,15 +16,13 @@ import org.springframework.security.web.SecurityFilterChain;
 import java.util.Collections;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
     private final CustomAuthenticationProvider customAuthenticationProvider;
-
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService, CustomAuthenticationProvider customAuthenticationProvider) {
-        this.userDetailsService = userDetailsService;
-        this.customAuthenticationProvider = customAuthenticationProvider;
-    }
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -37,14 +37,8 @@ public class SecurityConfig {
                 )
                 .httpBasic(httpBasic -> {})
                 .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint((request, response, authException) -> {
-                            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                            response.getWriter().write("Invalid credentials. Please check your username and password.");
-                        })
-                        .accessDeniedHandler((request, response, accessDeniedException) -> {
-                            response.setStatus(HttpStatus.FORBIDDEN.value());
-                            response.getWriter().write("Access Denied: You do not have permission to access this resource.");
-                        })
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationManager(authenticationManager());
