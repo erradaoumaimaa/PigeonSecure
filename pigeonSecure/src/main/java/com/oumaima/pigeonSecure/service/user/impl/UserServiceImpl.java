@@ -1,9 +1,10 @@
-package com.oumaima.pigeonSecure.service.user.Impl;
+package com.oumaima.pigeonSecure.service.user.impl;
 
 
 import com.oumaima.pigeonSecure.dto.user.UserRequestDTO;
 import com.oumaima.pigeonSecure.dto.user.UserResponseDTO;
 import com.oumaima.pigeonSecure.entity.User;
+import com.oumaima.pigeonSecure.entity.enums.Role;
 import com.oumaima.pigeonSecure.exception.user.UserAlreadyExistsException;
 import com.oumaima.pigeonSecure.exception.user.UserNotFoundException;
 import com.oumaima.pigeonSecure.mapper.UserMapper;
@@ -45,8 +46,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("User with username '" + username + "' not found"));
+                .orElseThrow(() -> new UserNotFoundException("User with username '" + username + "' not found "));
     }
+
+
+    @Override
+    public User updateUserRole(String username, String newRole) throws UserNotFoundException {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("username '" + username + "'"));
+
+        try {
+            Role roleEnum = Role.valueOf(newRole.toUpperCase());
+            user.setRole(roleEnum);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid role: " + newRole);
+        }
+
+        return userRepository.save(user);
+    }
+
+
+
 
 }
 

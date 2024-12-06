@@ -1,4 +1,5 @@
 package com.oumaima.pigeonSecure.dto.user;
+import com.oumaima.pigeonSecure.entity.enums.Role;
 import lombok.*;
 
 import lombok.Builder;
@@ -10,5 +11,6 @@ public record UserDTO(
         Long id,
         String username,
         LocalDateTime createdAt,
-        String password
+        String password,
+        Role role
 ) {}
