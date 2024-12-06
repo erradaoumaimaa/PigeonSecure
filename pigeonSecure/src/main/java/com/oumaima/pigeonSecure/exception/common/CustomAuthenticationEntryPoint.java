@@ -17,7 +17,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json");
         log.info(authException.getClass().getSimpleName());
 
@@ -25,13 +24,18 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         responseBody.append("{\"error\": \"Unauthorized Access\", ");
 
         if(authException instanceof BadCredentialsException) {
-            responseBody.append("\"message\": \"Bad credentials.\", ");
+            response.setStatus(HttpStatus.BAD_REQUEST.value());
+            responseBody.append("\"message\": \"Bad credentials.\", ")
+                    .append("\"status\": \"")
+                    .append(HttpStatus.BAD_REQUEST.value());
         } else {
-            responseBody.append("\"message\": \"You must be authenticated to access this resource.\", ");
+            response.setStatus(HttpStatus.FORBIDDEN.value());
+            responseBody.append("\"message\": \"You must be authenticated to access this resource.\", ")
+                    .append("\"status\": \"")
+                    .append(HttpStatus.FORBIDDEN.value());
         }
 
-        responseBody.append("\"status\": \"")
-                .append(HttpStatus.UNAUTHORIZED.value())
+        responseBody
                 .append("\", ").append("\"path\": \"")
                 .append(request.getRequestURI()).append("\"}");
 
