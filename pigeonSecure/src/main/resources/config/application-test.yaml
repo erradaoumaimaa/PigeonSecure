@@ -1,6 +1,5 @@
+# application-test.yaml
 spring:
-  profiles: test
-
   datasource:
     url: jdbc:postgresql://localhost:5432/pigeon_db
     username: postgres
@@ -8,7 +7,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
 
   swagger:
