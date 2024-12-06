@@ -1,5 +1,6 @@
 package com.oumaima.pigeonSecure.controller;
 
+import com.oumaima.pigeonSecure.dto.ApiResponseDTO;
 import com.oumaima.pigeonSecure.dto.user.*;
 import com.oumaima.pigeonSecure.service.user.UserService;
 import jakarta.validation.Valid;
@@ -23,11 +24,12 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public ResponseEntity<ApiResponseDTO<String>> login() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.isAuthenticated()) {
-            return "User logged in successfully: " + authentication.getName();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return ResponseEntity.ok(ApiResponseDTO.ok("User logged in successfully: " + authentication.getName()));
         }
-        return "User is not authenticated";
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResponseDTO.unauthorized("User is not authenticated"));
     }
+
 }
