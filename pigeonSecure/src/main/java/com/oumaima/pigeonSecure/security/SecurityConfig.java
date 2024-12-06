@@ -1,14 +1,12 @@
 package com.oumaima.pigeonSecure.security;
 
-import com.oumaima.pigeonSecure.service.user.Impl.UserDetailsServiceImpl;
+import com.oumaima.pigeonSecure.service.user.impl.UserDetailsServiceImpl;
 import org.springframework.context.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -31,7 +29,10 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/register").permitAll()
+                        .requestMatchers("/api/v2/auth/register").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v2/pigeons").hasRole("USER")
+                        .requestMatchers("/api/v2/competitions").hasRole("ORGANIZER")
                         .anyRequest().authenticated()
                 )
                 .httpBasic(httpBasic -> {})
@@ -55,7 +56,6 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager() throws Exception {
         return new ProviderManager(Collections.singletonList(customAuthenticationProvider));
     }
-
 
     @Profile("test")
     @Bean

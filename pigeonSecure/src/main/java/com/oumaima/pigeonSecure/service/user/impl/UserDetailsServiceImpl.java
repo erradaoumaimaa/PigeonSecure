@@ -1,4 +1,4 @@
-package com.oumaima.pigeonSecure.service.user.Impl;
+package com.oumaima.pigeonSecure.service.user.impl;
 
 import com. oumaima. pigeonSecure. entity. User;
 import com.oumaima.pigeonSecure.exception.user.UserNotFoundException;

@@ -1,7 +1,6 @@
 package com.oumaima.pigeonSecure.controller;
 import com.oumaima.pigeonSecure.dto.user.UserRequestDTO;
 import com.oumaima.pigeonSecure.dto.user.UserResponseDTO;
-import com.oumaima.pigeonSecure.entity.User;
 import com.oumaima.pigeonSecure.mapper.UserMapper;
 import com.oumaima.pigeonSecure.service.user.UserService;
 import jakarta.validation.Valid;
@@ -13,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v2/auth")
 @RequiredArgsConstructor
 public class AuthController {
 

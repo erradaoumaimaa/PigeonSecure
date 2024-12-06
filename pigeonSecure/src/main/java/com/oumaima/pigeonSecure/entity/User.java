@@ -4,11 +4,14 @@ import com.oumaima.pigeonSecure.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
 @Getter
 @Entity
 @Table(name = "users")
@@ -21,7 +24,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Setter
+
     @Column(nullable = false)
     private String password;
 
@@ -33,7 +36,13 @@ public class User {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    public Role getRole() {
+        return role;
+    }
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
     @PrePersist
     protected void onCreate() {
         if (this.role == null) {
@@ -41,6 +50,11 @@ public class User {
         }
         this.createdAt = LocalDateTime.now();
     }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Competition> competitions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Competition> pigeons = new ArrayList<>();
 
 
 }

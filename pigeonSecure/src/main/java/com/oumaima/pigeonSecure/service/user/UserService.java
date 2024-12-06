@@ -15,5 +15,7 @@ public interface UserService {
 
     User findUserByUsername(String username);
 
+    User updateUserRole(String username, String newRole) throws UserNotFoundException;
+
 
 }
